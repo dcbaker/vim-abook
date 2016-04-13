@@ -19,7 +19,7 @@ let loaded_vim_abook = 1
 "    select one
 function! s:AbookQuery(name)
     " The XXXXX and YYYYY are sentinals for the regex that follows
-    let l:raw_choices = system("abook --mutt-query " . a:name . " --outformat custom --outformatstr 'YYYYY<{name}> {email}XXXXX'")
+    let l:raw_choices = system("abook --mutt-query " . a:name . " --outformat custom --outformatstr 'YYYYY{name} <{email}>XXXXX'")
 
     " Abook seems to have a bug related to custom output formats, it puts
     " gibberish at the front of each line when using "--outformat custom"
