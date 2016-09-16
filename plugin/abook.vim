@@ -18,18 +18,20 @@ let loaded_vim_abook = 1
 "    - Presents a list of names matching the partial name for the user to
 "    select one
 function! s:AbookQuery(name)
-    " The XXXXX and YYYYY are sentinals for the regex that follows
-    let l:raw_choices = system("abook --mutt-query " . a:name . " --outformat custom --outformatstr 'YYYYY{name} <{email}>XXXXX'")
+    let l:raw_choices = system("abook --mutt-query " . a:name)
 
-    " Abook seems to have a bug related to custom output formats, it puts
-    " gibberish at the front of each line when using "--outformat custom"
-    " (which can contain the newline character. These three regex that follow
-    " remove the sentinals and all of the text between them to make the lines
-    " formatted
+    " Abook's '--outformat custom' doesn't work, so instead we'll have to take
+    " the standard output and hack that up
     let l:raw_choices = substitute(l:raw_choices, 'XXXXX\n.\{-}YYYYY', '\n', "g")
     let l:raw_choices = substitute(l:raw_choices, '^.*YYYYY', '', "")
     let l:raw_choices = substitute(l:raw_choices, 'XXXXX.*$', '', "")
-    let l:choices = split(l:raw_choices, "\n")
+
+    " Reformat the output into the form we expect
+    let l:choices = []
+    for l:c in split(l:raw_choices, '\n')
+        let l:split = split(l:c, '\t')
+        call add(l:choices, l:split[1] . ' <' . l:split[0] . '>')
+    endfor
 
     " Since inputlist will default to 0, making the count start at 1 (and
     " using the if statement at the end), means that just pressing enter will
