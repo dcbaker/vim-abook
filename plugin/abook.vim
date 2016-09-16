@@ -56,6 +56,10 @@ function! s:AbookQuery(name)
     else
         put =a:name
     endif
+
+    " This is a bit hacky, but it works
+    normal k
+    join
 endfunction
 
 " Function: s:AbookQueryINS()
