@@ -74,4 +74,4 @@ endfunction
 
 command! -nargs=1 AbookQuery call <sid>AbookQuery(<f-args>)
 
-inoremap <script> <leader>s <esc>:call <sid>AbookQueryINS()<cr><ins>
+inoremap <script> <leader>a <esc>:call <sid>AbookQueryINS()<cr><ins>
