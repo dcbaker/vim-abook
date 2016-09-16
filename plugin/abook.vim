@@ -53,6 +53,8 @@ function! s:AbookQuery(name)
         " Choices index is 1 less than display_choices, and fixing it here
         " allows 0 to be cancel
         put =l:choices[l:choice - 1]
+    else
+        put =a:name
     endif
 endfunction
 
